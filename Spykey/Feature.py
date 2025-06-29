@@ -1,24 +1,35 @@
-import psutil 
-import win32gui 
-import win32process
-import cv2
-import os   
-from pywinauto import Application
-import pywinauto
-import mss
-# import selenium
-from PIL import Image 
+import os
 import re
-from pathlib import Path
 import time
+from pathlib import Path
+
+import psutil
+import cv2
+import mss
+from PIL import Image
+
+import win32gui
+import win32process
+
+import  pywinauto
+from pywinauto.findwindows import ElementNotFoundError
+from pywinauto.findbestmatch import MatchError
+
 
 ADDRESS_BAR_TITLES = {
-    "chrome.exe": "Address and search bar",
-    "msedge.exe": "Address and search bar",
-    "brave.exe": "Address and search bar",
-    "firefox.exe": "Search with Google or enter address",  # Firefox may vary
-    "opera.exe": "Address field",  # Opera-specific
+    'brave.exe': "Address and search bar",
+    'chrome.exe': 'Address and search bar',
+    'firefox.exe': 'Search or enter address',
+    'msedge.exe': 'Address and search bar',
+    'opera.exe': 'Address bar',
 }
+login_keywords = [
+    'login', 'signin', 'sign-in', 'log-in', 'logon', 'log-on', 'signon', 'sign-on',
+    'userlogin', 'usersignin', 'auth', 'authentication', 'authn', 'authin', 'authorize',
+    'authorization', 'sso', 'single-sign-on', 'singlesignon', 'oauth', 'oauth2',
+    'signup', 'sign-up', 'register', 'registration', 'join', 'createaccount',
+    'create-account', 'newaccount', 'enroll', 'membership'
+]
 
 def Take_Screenshots(full_file):
     try:
@@ -67,7 +78,7 @@ def take_snapshot(save_path: Path) -> bool:
         print("Error: Failed to save image.")
         return False
 
-def Get_activeApp_Data():
+def get_activeApp_Data():
     try:
         hwnd = win32gui.GetForegroundWindow()
         if hwnd == 0:
@@ -78,29 +89,50 @@ def Get_activeApp_Data():
         process_name = p.name().lower().strip()
         return hwnd, process_title, process_name
     except Exception as e:
-        print(f"[ERROR in Get_activeApp_Data]: {e}")
+        print(f"[ERROR in get_active_app_data]: {e}")
         return 0, "Unknown", f"Error: {e}"
 
-def url_detection(hwnd):
-    global ADDRESS_BAR_TITLES
-    hwnd, _, process_name = Get_activeApp_Data()
-    try:
-        if process_name not in ADDRESS_BAR_TITLES:
-            print(f"[!] Not a supported browser: {process_name}")
-            return None
+def url_detection(hwnd, process_name):
+    if process_name not in ADDRESS_BAR_TITLES:
+        return None
 
+    try:
         app = pywinauto.Application(backend='uia').connect(handle=hwnd)
         dlg = app.window(handle=hwnd)
-
-        # Get the title of the address bar for this browser
         bar_title = ADDRESS_BAR_TITLES[process_name]
-
-        # Try to get the address bar and read the value
         address_bar = dlg.child_window(title=bar_title, control_type="Edit")
         url = address_bar.get_value()
         return url
-    except (pywinauto.findwindows.ElementNotFoundError, pywinauto.findbestmatch.MatchError) as e:
+    except (ElementNotFoundError, MatchError) as e:
         print(f"[ERROR locating address bar]: {e}")
     except Exception as e:
-        print(f"[Unexpected ERROR in url_detection_chrome]: {e}")
+        print(f"[Unexpected ERROR in url_detection]: {e}")
     return None
+
+def login_detection(url):
+    pattern = r'\b(?:' + '|'.join([re.escape(kw) for kw in login_keywords]) + r')\b'
+    result = re.search(pattern, url, re.IGNORECASE)
+    if result:
+        print(f"[!] Potential login page detected: {url}")
+    else:
+        print(f"[+] No login keyword detected in URL: {url}")
+
+def main():
+    browser_names = list(ADDRESS_BAR_TITLES.keys())
+    hwnd, title, process = get_activeApp_Data()
+
+    if process in browser_names:
+        url = url_detection(hwnd, process)
+        print(f"\n\nProcess: {process}")
+        if url:
+            print(f"URL: {url}")
+            login_detection(url)
+        else:
+            print("[!] Unable to retrieve URL.\n\n")
+    else:
+        print(f"[!] Active process '{process}' is not a supported browser.\n\n")
+
+if __name__ == "__main__":
+    while True:
+        main()
+        time.sleep(3)

