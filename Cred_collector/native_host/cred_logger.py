@@ -3,7 +3,7 @@ import json
 import struct
 import os
 
-OUTPUT_PATH = "G:\\Python\\CyberSce_Project\\Cred_collector\\cred_file.txt"
+OUTPUT_PATH = "cred_file.txt"
 PROCESS_NAME = "chrome.exe"  # Optional: fixed or detect dynamically
 
 def read_message():
