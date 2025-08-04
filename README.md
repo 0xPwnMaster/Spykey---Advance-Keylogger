@@ -1,81 +1,72 @@
-<<<<<<< HEAD
-# Advance Keylogger
-=======
-<<<<<<< HEAD
-# Advance Keylogger
-=======
-🚀 **CyberSec Project README**
+🚀 **Project Title & Tagline**
+---------------------------
 
-📖 **Project Description**
+**Project Title:** CyberSce - Credential Sniffer and Logger
+**Tagline:** A Python-based project that sniffs and logs credentials for security purposes
 
-The CyberSec Project is a comprehensive tool designed to detect and log sensitive information from users' computers. This project is a Python-based implementation that utilizes various techniques to identify and capture critical data, such as login credentials, URLs, and system information. The project consists of multiple modules, each serving a specific purpose in the overall data collection and analysis process.
+📖 **Description**
+----------------
 
-The primary objective of this project is to provide a robust and reliable solution for detecting and logging sensitive information, enabling users to monitor and protect their digital assets more effectively.
+CyberSce is a Python-based project that aims to sniff and log credentials for security purposes. The project consists of multiple modules that work together to detect and record login credentials, password fields, and other sensitive information. This project is designed to be a comprehensive tool for security researchers and penetration testers to analyze and identify potential vulnerabilities in web applications.
 
-✨ **Features**
+CyberSce uses a combination of techniques such as JavaScript injection, Chrome extension development, and Python scripting to extract and log credentials. The project is highly customizable, allowing users to configure the behavior of the credential sniffer and logger.
 
-1. **Credential Sniffing**: The project includes a credential sniffing module that can detect and log login credentials from various applications and websites.
-2. **System Information Collection**: The project can collect system information, such as process names, memory usage, and disk space, to provide a comprehensive view of the system.
-3. **URL Detection**: The project includes a URL detection module that can identify and log URLs visited by the user.
-4. **Login Detection**: The project can detect and log login attempts, including failed login attempts.
-5. **Screenshot Capture**: The project includes a screenshot capture module that can take snapshots of the user's screen.
-6. **Native Messaging**: The project utilizes native messaging to communicate with other applications and services.
-7. **PowerShell Integration**: The project includes integration with PowerShell, enabling users to run custom commands and scripts.
-8. **Zip File Compression**: The project can compress collected data into zip files for easier storage and transfer.
+**Features**
+------------
 
-🧰 **Tech Stack**
+* 📊 Credential Sniffer: Sniffs and logs login credentials, password fields, and other sensitive information
+* 📊 Chrome Extension: Develops a Chrome extension that injects JavaScript code to extract credentials
+* 💻 Python Scripting: Uses Python scripting to extract and log credentials
+* 🔒 Customizable: Allows users to configure the behavior of the credential sniffer and logger
+* 📊 Data Analysis: Provides data analysis and visualization capabilities to help users analyze and identify potential vulnerabilities
 
-| Frontend | Backend | Tools |
-| --- | --- | --- |
-| Python | Python | Chrome, PowerShell, Pynput, Psutil, Mss, OpenCV, ZipFile |
+**Tech Stack Table**
+-------------------
 
-📁 **Project Structure**
-Spykey/
-├── pycache/
-├── cred collector/
-│ ├── content.js
-│ ├── extract_creds.py
-│ ├── manifest.json
-│ └── test.html
-|
-├── Data_02-July/
-|
-├── Exfilter.py
-├── Feature.py
-├── Installer.py
-├── main.py
-└──README.md
+| **Component** | **Technology** |
+| --- | --- |
+| Frontend | JavaScript, HTML, CSS |
+| Backend | Python |
+| Tools | Chrome Extension, PowerShell |
 
-⚙️ **How to Run**
+**Project Structure**
+-------------------
 
-1. **Setup**: Clone the project repository and install the required dependencies using `pip install -r requirements.txt`.
-2. **Environment**: Ensure that the system meets the minimum requirements, including Python 3.8 or higher and Chrome installed.
-3. **Build**: Run the `main.py` script to build the project.
-4. **Deploy**: Copy the project files to the desired location and configure the `config.json` file as needed.
+* **content.js**: Injects JavaScript code to extract credentials
+* **background.js**: Handles Chrome extension functionality
+* **cred_logger.py**: Logs extracted credentials to a file
+* **main.py**: Initializes the credential sniffer and logger
+* **Feature.py**: Contains functions for extracting credentials
+* **test.py**: Contains test cases for the project
+* **Exfilter.py**: Contains functions for extracting credentials
+* **Installer.py**: Installs the Chrome extension
+* **test.html**: Contains a test login page
 
-🧪 **Testing Instructions**
+**How to Run**
+--------------
 
-1. **Unit Testing**: Run the `test.py` script to execute unit tests.
-2. **Integration Testing**: Run the `main.py` script to execute integration tests.
+1. **Setup**: Install the required technologies and tools
+2. **Environment**: Set up the environment variables
+3. **Build**: Build the Chrome extension
+4. **Deploy**: Deploy the Chrome extension to the Chrome Web Store
 
-📸 **Screenshots**
+**Testing Instructions**
+-----------------------
+
+1. **Unit Testing**: Run unit tests using the `unittest` module
+2. **Integration Testing**: Run integration tests using the `pytest` module
+3. **UI Testing**: Run UI tests using the `Selenium` module
+
+**Screenshots**
+--------------
 
 [Insert screenshots of the project in action]
 
-📦 **API Reference**
+**API Reference**
+----------------
 
-[Insert API reference documentation, if applicable]
+[Insert API reference documentation for the project]
 
-👤 **Author**
-
-[Your Name]
-
-📝 **License**
-
-MIT License
-
-This project is licensed under the MIT License. See `LICENSE` for details.
-
-Remember to replace the placeholders with actual information and screenshots.
->>>>>>> 02bd8fa (Added README.md)
->>>>>>> 83a0907 (Added README.md)
+**Author**
+---------
+[0xPwnMaster]
