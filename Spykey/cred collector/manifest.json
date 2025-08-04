@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Debug Input Sniffer",
+  "version": "1.0",
+  "description": "Logs URL and login form inputs in console.",
+  "permissions": ["scripting", "activeTab"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_title": "Debug Input Sniffer"
+  }
+}

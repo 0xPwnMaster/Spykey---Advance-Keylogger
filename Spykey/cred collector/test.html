@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Login Page</title>
+</head>
+<body>
+  <form>
+    <label>Username: <input type="text" name="username"></label><br>
+    <label>Email: <input type="email" name="email"></label><br>
+    <label>Password: <input type="password" name="password"></label><br>
+    <button type="submit">Login</button>
+  </form>
+</body>
+  <script>
+    document.getElementById("myForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Stops the page reload
+      // Handle form data with JavaScript
+    });
+  </script>
+</html>
