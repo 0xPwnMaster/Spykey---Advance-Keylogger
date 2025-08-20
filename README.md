@@ -1,6 +1,9 @@
 
 <h1 align="center"> SpyKey </h1>
 <p align="center"> A Stealthy, Comprehensive, and Modular Monitoring & Data Exfiltration Solution </p>
+<p align="center">
+  <img src="assets/logo.svg" alt="Project Logo" width="300">
+</p>
 
 <p align="center">
   <img alt="Build" src="https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge">
@@ -26,22 +29,20 @@
 
 SpyKey is a sophisticated, multi-faceted monitoring and data exfiltration tool designed for digital forensics, incident response, and authorized system oversight.
 
-> In today's complex digital landscape, understanding user activity, identifying suspicious behavior, or performing legitimate system audits can be challenging without specialized tools. Traditional monitoring solutions often lack the stealth, comprehensive data capture, and efficient exfiltration capabilities required for deep insights.
-
-SpyKey addresses these challenges by offering a robust, low-footprint solution for capturing keystrokes, application data, browser credentials, and visual snapshots, all meticulously organized and securely exfiltrated. Its modular design ensures adaptability and discrete operation, making it an invaluable asset for authorized security professionals.
-
-**Inferred Architecture:**
-SpyKey operates as a standalone, modular client-side agent written primarily in Python. Its architecture is designed for discreet operation, featuring distinct modules for core keylogging, advanced system data collection (e.g., active applications, URLs), comprehensive credential harvesting (potentially via browser interaction or native host), and robust data exfiltration. An integrated installer streamlines deployment, while collected data is temporarily stored locally before secure transmission.
+SpyKey addresses those challenges by offering a robust, solution for capturing keystrokes, application data, browser credentials, and visual snapshots, all meticulously organized and securely exfiltrated. Its modular design ensures adaptability and discrete operation, making it an invaluable asset for authorized security professionals.
 
 ## ✨ Key Features
 
 *   **Advanced Keylogging:** Captures keystrokes with efficient buffering, ensuring minimal system overhead while maintaining a detailed record of user input in `Keylogs.txt`.
-*   **Active Application Monitoring:** Dynamically identifies and logs the active application at the time of keypresses, providing crucial context to user activities through `Get_activeapp_data.py`.
-*   **Visual Context Capture (Screenshots/Snapshots):** Periodically captures screenshots or snapshots of the active desktop, offering valuable visual evidence alongside textual logs via `Take_ScreenShot.py` and `Take_snapshot.py`.
+*   **Active Application Monitoring:** Dynamically identifies and logs the active application at the time of keypresses through `Get_activeapp_data.py`.
+*   **Screenshots/Snapshots :** Periodically captures screenshots or snapshots via `Take_ScreenShot.py` and `Take_snapshot.py`.
 *   **Browser URL Detection:** Intelligently detects and logs URLs visited in web browsers, enhancing the scope of monitoring for web-based activities using `url_detection.py`.
+
 *   **Comprehensive Credential Harvesting:** Employs sophisticated mechanisms, including potential browser extension techniques (evident from `manifest.json`, `content.js`, `extract_creds.py`, and `cred_logger.py`), to extract and securely store login credentials in `credentials.txt`.
 *   **Secure & Efficient Data Exfiltration:** Gathers, compresses (via `zipper` in `Exfilter.py`), and securely transmits all collected data to a remote destination, incorporating connectivity checks for reliable delivery.
 *   **Automated Deployment & Setup:** Features an `Installer.py` script capable of automating the installation of necessary dependencies (Python, Git, Python modules) on the target system, streamlining initial setup.
+
+<p align="center">⚠️ Still Working on Cred Collector Extension and Exfiltration</p>
 
 ## 🛠️ Tech Stack & Architecture
 
@@ -123,4 +124,4 @@ We welcome contributions to SpyKey! If you have suggestions for improvements, ne
 
 ## 📝 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See `LICENSE` for more information. 
